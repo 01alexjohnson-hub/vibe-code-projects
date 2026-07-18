@@ -1,0 +1,165 @@
+@import "tailwindcss";
+@import "./styles/theme.css";
+
+/* Plus Jakarta Sans — the design skill's typography match for calm,
+   productivity-tool SaaS UI (single family, weights 300-700). Self-hosted
+   static weight files (bundled by vite, no CDN/runtime font fetch). Replaces
+   Fraunces; headings use the same family at a heavier weight rather than a
+   separate display face, per Minimalism & Swiss Style's "clear type
+   hierarchy, no unnecessary decoration" guidance. */
+@import "@fontsource/plus-jakarta-sans/300.css";
+@import "@fontsource/plus-jakarta-sans/400.css";
+@import "@fontsource/plus-jakarta-sans/500.css";
+@import "@fontsource/plus-jakarta-sans/600.css";
+@import "@fontsource/plus-jakarta-sans/700.css";
+
+/* Register the shared color tokens (src/styles/theme.css) as Tailwind
+   utilities */
+@theme inline {
+  --color-text: var(--color-text);
+  --color-background: var(--color-background);
+  --color-surface: var(--color-surface);
+  --color-background-ui: var(--color-background-ui);
+  --color-background-ui-text: var(--color-background-ui-text);
+  --color-logo-primary: var(--color-logo-primary);
+  --color-logo-stroke: var(--color-logo-stroke);
+  --color-text-stroke: var(--color-text-stroke);
+  --color-mid-gray: var(--color-mid-gray);
+  --color-accent-forest: var(--color-accent-forest);
+  --color-accent-orange: var(--color-accent-orange);
+  --color-accent-mint: var(--color-accent-mint);
+  --font-display: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+:root {
+  /* Typography */
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: 400;
+  font-family:
+    "Plus Jakarta Sans",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  /* Typography settings */
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+
+  --scrollbar-thumb: color-mix(in srgb, var(--color-text), transparent 85%);
+  --scrollbar-thumb-hover: color-mix(
+    in srgb,
+    var(--color-text),
+    transparent 70%
+  );
+
+  /* Log console surface — a subtle shade off the app background so the live log
+     viewer reads as a distinct console. In light mode this is a faint gray code
+     block (matching other surfaces); the dark theme overrides it below. */
+  --color-log-surface: color-mix(in srgb, var(--color-background), black 6%);
+
+  /* Apply colors */
+  color: var(--color-text);
+  background-color: var(--color-background);
+}
+
+.container {
+  margin: 0;
+  padding-top: 10vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Just a bit darker than the (already dark) background, keeping its cool neutral tint */
+    --color-log-surface: color-mix(in srgb, var(--color-background), black 15%);
+  }
+}
+
+/*
+ * Explicit theme override, driven by the `theme` setting via
+ * `document.documentElement.dataset.theme`. When set, the higher-specificity
+ * attribute selectors win over the `prefers-color-scheme` media query above,
+ * so a user can keep Handy light or dark regardless of the OS setting.
+ * `system` (or no attribute) leaves the OS in charge.
+ */
+:root[data-theme="light"] {
+  --color-text: var(--light-color-text);
+  --color-background: var(--light-color-background);
+  --color-surface: var(--light-color-surface);
+  --color-logo-primary: var(--light-color-logo-primary);
+  --color-logo-stroke: var(--light-color-logo-stroke);
+  --color-accent-forest: var(--light-color-success);
+  --color-accent-orange: var(--light-color-warn);
+  --color-accent-mint: var(--light-color-success);
+  --color-background-ui: var(--light-color-background-ui);
+  --color-background-ui-text: var(--light-color-background-ui-text);
+}
+
+:root[data-theme="dark"] {
+  --color-text: var(--dark-color-text);
+  --color-background: var(--dark-color-background);
+  --color-surface: var(--dark-color-surface);
+  --color-logo-primary: var(--dark-color-logo-primary);
+  --color-logo-stroke: var(--dark-color-logo-stroke);
+  --color-accent-forest: var(--dark-color-success);
+  --color-accent-orange: var(--dark-color-warn);
+  --color-accent-mint: var(--dark-color-success);
+  --color-background-ui: var(--dark-color-background-ui);
+  --color-background-ui-text: var(--dark-color-background-ui-text);
+}
+
+/* macOS - tint native overlay scrollbar thumb */
+:root[data-platform="macos"] {
+  scrollbar-color: var(--scrollbar-thumb) transparent;
+}
+
+/* Custom Scrollbar - only on Windows/Linux; macOS uses native overlay scrollbars */
+:root:not([data-platform="macos"]) ::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+
+:root:not([data-platform="macos"]) ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+:root:not([data-platform="macos"]) ::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb);
+  border-radius: 20px;
+  border: 3px solid transparent;
+  border-right-width: 4px;
+  border-left-width: 3px;
+  background-clip: content-box;
+  min-height: 32px;
+}
+
+:root:not([data-platform="macos"]) ::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-thumb-hover);
+}
+
+@layer utilities {
+  .text-stroke {
+    -webkit-text-stroke: 2px var(--color-text-stroke);
+  }
+}
+
+.logo-primary {
+  fill: var(--color-logo-primary);
+}
+
+.logo-stroke {
+  fill: var(--color-logo-stroke);
+  stroke: var(--color-logo-stroke);
+  stroke-width: 1;
+}

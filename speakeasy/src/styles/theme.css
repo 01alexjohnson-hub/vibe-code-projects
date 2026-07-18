@@ -1,0 +1,96 @@
+/* SpeakEasy Colors — Minimalism & Swiss Style (ui-ux-pro-max design skill).
+   Ground truth: skill domain searches against
+   "macOS desktop productivity utility, dictation app, calm, trustworthy,
+   modern" — style=Minimalism & Swiss Style (full light+dark, WCAG AAA,
+   "Enterprise apps, dashboards... professional tools"), colors=calm indigo +
+   success green (Remote Work/Collaboration Tool profile), typography=Plus
+   Jakarta Sans (single-family "Friendly SaaS... productivity tools" pairing,
+   see App.css). Near-black/near-white neutral base + ONE indigo accent,
+   exactly as the style's "single accent only" guidance calls for; success
+   green and warn amber are semantic exceptions used sparingly (recommended
+   badge, on-device trust icon, Ollama-unreachable notice).
+
+   Every text/icon-on-accent and text-on-tinted-chip pairing below is
+   contrast-checked against the WCAG formula (4.5:1 text, 3:1 UI components/
+   graphics), including the *diluted* composite backgrounds the app actually
+   renders (12% active-nav tint, 15% badge tint, 10% banner tint — the worst
+   case is always the composite, not the raw accent-on-page-background
+   pairing). The skill's own stock Tailwind-500/600 shades failed several of
+   these as literal text color (e.g. indigo-500 on white measures 4.47:1,
+   under the 4.5:1 minimum) — light-mode accents below are shifted one to
+   two shades darker than the raw skill output specifically to clear that
+   bar; dark-mode accents already cleared it as originally chosen. */
+
+:root {
+  /* Palette source of truth. Each themed color is defined once as a
+     light/dark pair; the active tokens below and the `data-theme` overrides
+     in App.css reference these, so a hex value lives in exactly one place. */
+  --light-color-text: #0f172a;
+  --light-color-background: #ffffff;
+  --light-color-surface: #f4f5f7;
+  --light-color-logo-primary: #4f46e5; /* indigo-600, not -500: 6.29:1 on white / 4.84:1 on the 12%-tint active-nav bg (indigo-500 measured 4.47 / 3.55 — both under 4.5) */
+  --light-color-logo-stroke: #0f172a;
+  --light-color-success: #065f46; /* emerald-800, not -600: 15%-tint "Recommended" badge text measured 3.14:1 at -600, needs -800 to clear 4.5:1 */
+  --light-color-warn: #92400e; /* amber-800, not -700: 10%-tint Ollama-banner text measured 4.39:1 at -700, needs -800 to clear 4.5:1 */
+
+  /* Dark isn't a straight color-flip: the accent, success and warn hues are
+     lightened a step (indigo-400/emerald-400/amber-400 instead of the
+     light-mode 600/800/800 shades) so they clear WCAG AA as text/icon color
+     against the near-black background — a mid-saturation hue needs a
+     different shade in each direction, unlike a pastel that stays legible
+     either way. All measured >=4.75:1 including the diluted-tint cases. */
+  --dark-color-text: #f1f5f9;
+  --dark-color-background: #0f1115;
+  --dark-color-surface: #1a1d24;
+  --dark-color-logo-primary: #818cf8;
+  --dark-color-logo-stroke: #f1f5f9;
+  --dark-color-success: #34d399;
+  --dark-color-warn: #fbbf24;
+
+  /* Solid-fill tokens (buttons, checked toggle track, slider fill,
+     progress bar). Theme-aware, unlike everything below this comment used
+     to be as a single fixed value: a saturated indigo dark enough for WHITE
+     text to clear 4.5:1 (light mode) is too dark to visually "pop" against
+     a near-black dark-mode surface (indigo-600 fill measured only 2.68:1
+     against the dark surface panel — under the 3:1 UI-component minimum),
+     so dark mode uses the lighter indigo-400 fill with DARK on-fill text
+     instead of flipping the fill lighter and keeping white text. */
+  --light-color-background-ui: #4f46e5;
+  --light-color-background-ui-text: #ffffff;
+  --dark-color-background-ui: #818cf8;
+  --dark-color-background-ui-text: #0f1115;
+
+  /* Tokens that do not change between light and dark */
+  --color-text-stroke: #f6f6f6;
+  --color-mid-gray: #64748b;
+
+  /* Semantic accents (theme-aware — see --dark-color-success/-warn above) */
+  --color-accent-forest: var(--light-color-success);
+  --color-accent-orange: var(--light-color-warn);
+  --color-accent-mint: var(--light-color-success);
+
+  /* Active palette — defaults to light, follows the OS via the media query
+     below, or is forced by `data-theme` (see App.css). */
+  --color-text: var(--light-color-text);
+  --color-background: var(--light-color-background);
+  --color-surface: var(--light-color-surface);
+  --color-logo-primary: var(--light-color-logo-primary);
+  --color-logo-stroke: var(--light-color-logo-stroke);
+  --color-background-ui: var(--light-color-background-ui);
+  --color-background-ui-text: var(--light-color-background-ui-text);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-text: var(--dark-color-text);
+    --color-background: var(--dark-color-background);
+    --color-surface: var(--dark-color-surface);
+    --color-logo-primary: var(--dark-color-logo-primary);
+    --color-logo-stroke: var(--dark-color-logo-stroke);
+    --color-accent-forest: var(--dark-color-success);
+    --color-accent-orange: var(--dark-color-warn);
+    --color-accent-mint: var(--dark-color-success);
+    --color-background-ui: var(--dark-color-background-ui);
+    --color-background-ui-text: var(--dark-color-background-ui-text);
+  }
+}
