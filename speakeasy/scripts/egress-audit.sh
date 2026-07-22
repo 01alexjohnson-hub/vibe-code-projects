@@ -10,8 +10,8 @@ OUT="/tmp/speakeasy-egress-audit.log"
 : > "$OUT"
 END=$((SECONDS + DUR)); echo "audit start $(date) — ${DUR}s" | tee -a "$OUT"
 while [ $SECONDS -lt $END ]; do
-  # Match the app binary regardless of the .app display name (SpeakEasy/Handy).
-  PIDS=$(pgrep -f "\.app/Contents/MacOS/" | tr '\n' ',' | sed 's/,$//')
+  # Match only the SpeakEasy (or pre-rebrand Handy) app binary, not every .app on the machine.
+  PIDS=$(pgrep -f "/(SpeakEasy|Handy)\.app/Contents/MacOS/" | tr '\n' ',' | sed 's/,$//')
   if [ -n "$PIDS" ]; then
     lsof -a -i -P -n -p "$PIDS" 2>/dev/null \
       | grep -v -E "127\.0\.0\.1|\[::1\]|localhost|COMMAND" >> "$OUT" || true
@@ -19,6 +19,6 @@ while [ $SECONDS -lt $END ]; do
   sleep 5
 done
 echo "audit end $(date)" >> "$OUT"
-N=$(grep -vc -E "^audit" "$OUT" || echo 0)
+N=$(grep -vc -E "^audit" "$OUT" || true)
 echo "non-localhost connection rows captured: $N   (0 = nothing left the device)"
 [ "$N" -gt 0 ] && { echo "REVIEW these rows:"; grep -v "^audit" "$OUT" | sort -u; } || true

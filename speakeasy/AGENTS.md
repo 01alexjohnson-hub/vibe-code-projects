@@ -14,7 +14,8 @@ and privacy invariants, `HANDOFF.md` for full architecture/dependencies, `RUNBOO
 - [Bun](https://bun.sh/) package manager
 - `cmake` (`brew install cmake`)
 - Xcode Command Line Tools (`xcode-select --install`)
-- Intel Macs only: `brew install onnxruntime` (`scripts/build.sh` auto-detects and links it)
+- Intel Macs (x86_64): a manual, not-yet-automated path — **not** `brew install onnxruntime` (proven
+  not to work). `scripts/build.sh` fails fast on Intel; see BUILD.md → "Intel Mac (x86_64)".
 
 **Sanctioned build/install** (see BUILD.md for full platform detail):
 
@@ -195,8 +196,8 @@ Access debug features: `Cmd+Shift+D` (macOS)
 
 ## Platform Notes
 
-SpeakEasy is developed and verified on **macOS** (Apple Silicon; Intel supported via
-`brew install onnxruntime` + `scripts/build.sh`'s auto-detection). Handy's Windows/Linux code paths
+SpeakEasy is developed and verified on **macOS** (Apple Silicon; Intel is a manual, not-yet-automated
+build — see BUILD.md → "Intel Mac (x86_64)", **not** `brew install onnxruntime`). Handy's Windows/Linux code paths
 still exist in this fork but are **unverified** here — treat any Windows/Linux instructions in
 BUILD.md as inherited-but-untested platform knowledge, not a supported target.
 

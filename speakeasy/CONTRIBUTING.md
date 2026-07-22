@@ -7,7 +7,8 @@ Thanks for your interest! SpeakEasy is a privacy-hardened fork of
 
 Prerequisites: Rust ([rustup.rs](https://rustup.rs)), Bun ([bun.sh](https://bun.sh)),
 cmake (`brew install cmake`), Xcode Command Line Tools (`xcode-select --install`).
-On Intel Macs also run `brew install onnxruntime`.
+Intel Macs (x86_64) are a manual, not-yet-automated build — see BUILD.md → "Intel Mac (x86_64)";
+do **not** `brew install onnxruntime` (proven not to work).
 
 ```bash
 ./scripts/build.sh      # build the .app (correct env baked in)

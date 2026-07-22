@@ -42,3 +42,7 @@ blob-report/
 
 # Nix build output
 result
+
+# Code-signing certificates and keys — never commit
+*.p12
+*.pem

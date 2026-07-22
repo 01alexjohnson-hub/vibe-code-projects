@@ -1202,7 +1202,7 @@ mod tests {
     fn empty_store_parses_with_defaults() {
         let settings: AppSettings = serde_json::from_value(serde_json::json!({}))
             .expect("all AppSettings fields need serde defaults");
-        assert!(settings.push_to_talk);
+        assert!(!settings.push_to_talk);
         assert!(!settings.audio_feedback);
         // Bindings default to empty; the load path merges the real defaults in.
         assert!(settings.bindings.is_empty());

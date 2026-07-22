@@ -27,8 +27,10 @@ Then grant **Input Monitoring + Accessibility + Microphone** once (macOS prompts
 Parakeet model in Settings, and start dictating. Full walkthrough + troubleshooting: **[RUNBOOK.md](RUNBOOK.md)**.
 Developer/handoff detail (architecture, dependencies): **[HANDOFF.md](HANDOFF.md)**.
 
-Intel Macs are supported too — just `brew install onnxruntime` first; `scripts/build.sh` handles the
-rest. If the first-run model download fails, RUNBOOK.md has a Hugging Face fallback.
+Intel Macs (x86_64) build via a manual, not-yet-automated path — see BUILD.md → "Intel Mac
+(x86_64)". Do **not** `brew install onnxruntime` (proven not to work); `scripts/build.sh` stops on
+Intel with a pointer to the recipe. If the first-run model download fails, RUNBOOK.md has a Hugging
+Face fallback.
 
 ## Privacy
 SpeakEasy makes no cloud calls and collects no data. Audio is transcribed in-process by a local model.

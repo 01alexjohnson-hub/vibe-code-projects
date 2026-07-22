@@ -5,9 +5,11 @@ different platforms.
 
 **Sanctioned path (macOS):** `./scripts/build.sh` followed by `./scripts/install.sh` — see the Quick
 start in README.md or CLAUDE.md. It runs `bun install` + `bun run tauri build` with the correct
-platform env already baked in (including the Intel ONNX Runtime linking below), so most people never
-need the manual commands on this page. This page documents what the script does and how to build
-manually if you're not using it (e.g. CI, a non-macOS platform, or debugging the script itself).
+platform env already baked in, so most people on Apple Silicon never need the manual commands on
+this page. This page documents what the script does and how to build manually if you're not using it
+(e.g. CI, a non-macOS platform, or debugging the script itself). **Intel Macs** are a manual,
+not-yet-automated path — see [Intel Mac (x86_64)](#intel-mac-x86_64) below; the script fails fast
+there rather than attempting the (broken) Homebrew ONNX Runtime path.
 
 macOS is the only platform this fork is tested on. The Windows/Linux detail below is inherited from
 upstream Handy and kept for reference — it's unverified in this fork.
@@ -29,22 +31,62 @@ upstream Handy and kept for reference — it's unverified in this fork.
 
 ##### Intel Mac (x86_64)
 
-Prebuilt ONNX Runtime binaries are not available for Intel Macs. `scripts/build.sh` **auto-detects
-Intel and links Homebrew's ONNX Runtime for you** — just install it first:
+Apple Silicon needs nothing extra — the `ort` crate downloads a prebuilt ONNX Runtime and the
+`scripts/build.sh` fast path just works.
 
-```bash
-brew install onnxruntime
-```
+**Intel is a manual, not-yet-automated path.** Do not use `brew install onnxruntime` — it is proven
+not to work. Homebrew's Intel ONNX Runtime bottle tops out at 1.23.2, but the `ort` crate's default
+`api-24` feature (pulled in transitively via **both** `transcribe-rs` and `vad-rs`) hard-requires
+ONNX Runtime **1.24+** at build time (no `x86_64-apple-darwin` prebuilt for it exists anywhere) and
+at runtime (`ort` rejects older dylibs it does find). This ceiling is ecosystem-wide: Microsoft's
+GitHub releases, PyPI wheels, and conda-forge all cap macOS x86_64 at 1.22–1.23.2. A newer brew
+formula will not appear — the fix is to pin `ort` back to `api-23`, not to chase a newer runtime.
 
-(`build.sh` prints this hint and stops if it's missing.) Apple Silicon needs nothing extra.
+`scripts/build.sh`'s Intel branch **fails fast** and points here rather than attempting the broken
+Homebrew path. To build on Intel today, you must reproduce the validated approach below by hand.
 
-If you're building manually instead of via `scripts/build.sh` (e.g. `bun run tauri dev`/`build`
-directly), set the same environment variables yourself:
+**Validated on real Intel hardware (from-scratch build + install + transcription):**
 
-```bash
-ORT_LIB_LOCATION=$(brew --prefix onnxruntime)/lib ORT_PREFER_DYNAMIC_LINK=1 bun run tauri dev
-ORT_LIB_LOCATION=$(brew --prefix onnxruntime)/lib ORT_PREFER_DYNAMIC_LINK=1 bun run tauri build
-```
+1. **No Homebrew, no root.** cmake, Node, and ONNX Runtime install as relocatable tarballs under
+   `$HOME` — important because a machine with no `sudo` password cannot run the Homebrew installer
+   at all.
+   - **cmake 3.31.x specifically** — use the official Kitware tarball, **not** 4.x. cmake 4 drops
+     `cmake_minimum_required(<3.5)` compatibility that the ggml / whisper.cpp-era builds still need.
+   - **Node** — any recent LTS tarball under `$HOME`.
+   - **ONNX Runtime 1.23.2** — Microsoft's prebuilt `osx-x86_64` release tarball.
+
+2. **Verify the feature union before building — this is the trap.** Cargo unions features across the
+   whole dependency graph, so pinning `api-23` on only one `ort` consumer (e.g. `transcribe-rs`) is
+   not enough if another consumer (`vad-rs`, the Silero VAD) still pulls in `ort`'s default features
+   and re-enables `api-24`. Always run:
+
+   ```bash
+   cargo tree -e features -i ort | grep -E 'api-24|download-binaries'
+   ```
+
+   Expect **no output**. Skipping this check surfaces the failure ~35 minutes into a release build
+   instead of before it starts.
+
+3. **Copy the dylib and add a relative rpath.** A dynamically-linked ORT build needs its dylib
+   copied into `Contents/Frameworks/` and an `@executable_path/../Frameworks` rpath added via
+   `install_name_tool` — **relative, never absolute** (an absolute rpath bakes a personal filesystem
+   path into a shipped binary). `ort-sys` only does this copy inside its `download-binaries` flow,
+   which the Intel path disables, so without this manual step the bundle ships with a dangling
+   `@rpath` reference and fails **at launch**, not at first transcription.
+
+4. **Use a local self-signed certificate, not ad-hoc signing.** Ad-hoc signing (`codesign -s -`)
+   changes its cdhash on every rebuild, which silently invalidates TCC's Input Monitoring /
+   Accessibility / Microphone grants each time (the "permission is ON but the app still says
+   waiting" trap). A local self-signed **code-signing certificate** — imported to the login keychain
+   and referenced by `install.sh` — gives a stable identity across rebuilds. It does **not** need to
+   be trusted by the OS: `codesign` only needs the private key, and Gatekeeper is not involved for a
+   locally-built app.
+
+> **Not yet automated.** The `vendor/transcribe-rs` + `vendor/vad-rs` overrides and the
+> `[patch.crates-io]` block that actually pin `api-23` were authored and proven on a one-off Intel
+> build but were **never committed to this repo**. Until they are, reproduce the vendoring yourself
+> and run the `cargo tree` check in step 2. `scripts/build.sh` will not silently attempt a broken
+> build on Intel — it stops and points back here.
 
 #### Windows
 
