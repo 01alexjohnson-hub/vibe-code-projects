@@ -91,7 +91,9 @@ export const ShowOverlay: React.FC<ShowOverlayProps> = React.memo(
             onChange={(checked) => updateSetting("show_idle_pill", checked)}
             isUpdating={isUpdating("show_idle_pill")}
             label={t("settings.advanced.overlay.showIdlePill.title")}
-            description={t("settings.advanced.overlay.showIdlePill.description")}
+            description={t(
+              "settings.advanced.overlay.showIdlePill.description",
+            )}
             descriptionMode={descriptionMode}
             grouped={grouped}
           />

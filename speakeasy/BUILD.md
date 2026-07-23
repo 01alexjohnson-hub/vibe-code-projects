@@ -169,7 +169,7 @@ This compiles a release binary and generates platform-specific bundles (deb, rpm
 
 ## Linux Install (from source)
 
-*Unverified in this fork — inherited from upstream Handy, kept for reference.*
+_Unverified in this fork — inherited from upstream Handy, kept for reference._
 
 The raw binary (`src-tauri/target/release/speakeasy`) cannot run standalone — it needs Tauri resource files (tray icons, sounds, VAD model) to be co-located at the expected path.
 
@@ -198,7 +198,7 @@ Resources only need re-copying if they change upstream (new icons, sounds, model
 
 ## Troubleshooting
 
-*The sections below are Windows/Linux-specific — unverified in this fork, kept for reference.*
+_The sections below are Windows/Linux-specific — unverified in this fork, kept for reference._
 
 ### AppImage build fails on Arch / rolling-release distros
 

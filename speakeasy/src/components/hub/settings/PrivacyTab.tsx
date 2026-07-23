@@ -35,7 +35,10 @@ export const PrivacyTab: React.FC = () => {
     <div className="max-w-2xl w-full mx-auto space-y-6">
       <SettingsGroup>
         <div className="px-4 p-3 flex items-start gap-3">
-          <ShieldCheck size={20} className="text-accent-forest shrink-0 mt-0.5" />
+          <ShieldCheck
+            size={20}
+            className="text-accent-forest shrink-0 mt-0.5"
+          />
           <div>
             <h3 className="text-sm font-semibold">
               {t("hub.settings.privacy.onDevice.title")}

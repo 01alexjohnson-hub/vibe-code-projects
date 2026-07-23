@@ -28,7 +28,8 @@
   --color-accent-forest: var(--color-accent-forest);
   --color-accent-orange: var(--color-accent-orange);
   --color-accent-mint: var(--color-accent-mint);
-  --font-display: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display:
+    "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 :root {

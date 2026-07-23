@@ -50,7 +50,11 @@ export const AddWordModal: React.FC<AddWordModalProps> = ({
       closeLabel={t("hub.dictionary.modal.cancel")}
       footer={
         <>
-          <Button variant="secondary" size="md" onClick={() => handleClose(false)}>
+          <Button
+            variant="secondary"
+            size="md"
+            onClick={() => handleClose(false)}
+          >
             {t("hub.dictionary.modal.cancel")}
           </Button>
           <Button

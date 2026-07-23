@@ -5,6 +5,7 @@
 ```bash
 bun install                    # Install dependencies
 ```
+
 No manual model download needed — `silero_vad_v4.onnx` ships bundled at `src-tauri/resources/models/`.
 
 **Development:**

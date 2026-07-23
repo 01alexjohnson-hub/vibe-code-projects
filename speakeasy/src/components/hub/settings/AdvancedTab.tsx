@@ -71,7 +71,10 @@ export const AdvancedTab: React.FC = () => {
 
       <SettingsGroup title={t("settings.advanced.groups.history")}>
         <HistoryLimit descriptionMode="tooltip" grouped={true} />
-        <RecordingRetentionPeriodSelector descriptionMode="tooltip" grouped={true} />
+        <RecordingRetentionPeriodSelector
+          descriptionMode="tooltip"
+          grouped={true}
+        />
       </SettingsGroup>
 
       <SettingsGroup title={t("hub.settings.advanced.spacebarGroup")}>
@@ -94,7 +97,9 @@ export const AdvancedTab: React.FC = () => {
             max={800}
             step={10}
             label={t("hub.settings.advanced.spacebarThreshold.label")}
-            description={t("hub.settings.advanced.spacebarThreshold.description")}
+            description={t(
+              "hub.settings.advanced.spacebarThreshold.description",
+            )}
             descriptionMode="inline"
             grouped={true}
             formatValue={(v) => `${Math.round(v)}ms`}
@@ -105,7 +110,10 @@ export const AdvancedTab: React.FC = () => {
       {experimentalEnabled && (
         <SettingsGroup title={t("settings.advanced.groups.experimental")}>
           <PostProcessingToggle descriptionMode="tooltip" grouped={true} />
-          <KeyboardImplementationSelector descriptionMode="tooltip" grouped={true} />
+          <KeyboardImplementationSelector
+            descriptionMode="tooltip"
+            grouped={true}
+          />
           <AccelerationSelector descriptionMode="tooltip" grouped={true} />
           <LazyStreamClose descriptionMode="tooltip" grouped={true} />
         </SettingsGroup>
@@ -130,7 +138,10 @@ export const AdvancedTab: React.FC = () => {
           />
           <RecordingBuffer descriptionMode="tooltip" grouped={true} />
           <AlwaysOnMicrophone descriptionMode="tooltip" grouped={true} />
-          <ClamshellMicrophoneSelector descriptionMode="tooltip" grouped={true} />
+          <ClamshellMicrophoneSelector
+            descriptionMode="tooltip"
+            grouped={true}
+          />
           <LiveLogViewer descriptionMode="tooltip" grouped={true} />
         </SettingsGroup>
       )}

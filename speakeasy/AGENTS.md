@@ -182,7 +182,7 @@ SpeakEasy supports command-line parameters on macOS for integration with scripts
 | `--cancel`               | Cancel the current operation on a running instance         |
 | `--start-hidden`         | Launch without showing the main window (tray icon visible) |
 | `--no-tray`              | Launch without system tray (closing window quits the app)  |
-| `--debug`                | Enable debug mode with verbose (Trace) logging              |
+| `--debug`                | Enable debug mode with verbose (Trace) logging             |
 
 **Key design decisions:**
 

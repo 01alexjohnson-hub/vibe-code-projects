@@ -33,8 +33,13 @@ const SpeakEasyMark: React.FC<{ className?: string }> = ({
         />
         <rect x="20" y="7" width="3" height="10" rx="1.5" fill="currentColor" />
       </svg>
-      {/* eslint-disable-next-line i18next/no-literal-string -- brand name, not translated */}
-      <span className="text-lg font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>SpeakEasy</span>
+      <span
+        className="text-lg font-semibold tracking-tight"
+        style={{ fontFamily: "var(--font-display)" }}
+      >
+        {/* brand name — not translated */}
+        {"SpeakEasy"}
+      </span>
     </div>
   );
 };

@@ -75,7 +75,10 @@ export const HistoryPage: React.FC = () => {
     if (isFirstPage) setLoading(true);
 
     try {
-      const result = await commands.getHistoryEntries(cursor ?? null, PAGE_SIZE);
+      const result = await commands.getHistoryEntries(
+        cursor ?? null,
+        PAGE_SIZE,
+      );
       if (result.status === "ok") {
         const { entries: newEntries, has_more } = result.data;
         setEntries((prev) =>
@@ -213,7 +216,11 @@ export const HistoryPage: React.FC = () => {
   } else if (entries.length === 0) {
     content = (
       <div className="flex flex-col items-center gap-2 px-4 py-10 text-center">
-        <HistoryIcon size={20} className="text-mid-gray/50" aria-hidden="true" />
+        <HistoryIcon
+          size={20}
+          className="text-mid-gray/50"
+          aria-hidden="true"
+        />
         <p className="text-text/60 text-sm">{t("settings.history.empty")}</p>
       </div>
     );
@@ -354,7 +361,9 @@ const HistoryEntryRow: React.FC<HistoryEntryRowProps> = ({
                   : "bg-accent-orange/20 text-accent-orange"
               }`}
             >
-              {showRaw ? t("hub.history.rawLabel") : t("hub.history.polishedLabel")}
+              {showRaw
+                ? t("hub.history.rawLabel")
+                : t("hub.history.polishedLabel")}
             </span>
           )}
         </div>
@@ -365,7 +374,9 @@ const HistoryEntryRow: React.FC<HistoryEntryRowProps> = ({
               disabled={retrying}
               active={showRaw}
               title={
-                showRaw ? t("hub.history.showPolished") : t("hub.history.undoAiEdit")
+                showRaw
+                  ? t("hub.history.showPolished")
+                  : t("hub.history.undoAiEdit")
               }
             >
               <Sparkles width={16} height={16} />
@@ -376,15 +387,27 @@ const HistoryEntryRow: React.FC<HistoryEntryRowProps> = ({
             disabled={!hasTranscription || retrying}
             title={t("settings.history.copyToClipboard")}
           >
-            {showCopied ? <Check width={16} height={16} /> : <Copy width={16} height={16} />}
+            {showCopied ? (
+              <Check width={16} height={16} />
+            ) : (
+              <Copy width={16} height={16} />
+            )}
           </IconButton>
           <IconButton
             onClick={onToggleSaved}
             disabled={retrying}
             active={entry.saved}
-            title={entry.saved ? t("settings.history.unsave") : t("settings.history.save")}
+            title={
+              entry.saved
+                ? t("settings.history.unsave")
+                : t("settings.history.save")
+            }
           >
-            <Star width={16} height={16} fill={entry.saved ? "currentColor" : "none"} />
+            <Star
+              width={16}
+              height={16}
+              fill={entry.saved ? "currentColor" : "none"}
+            />
           </IconButton>
           <IconButton
             onClick={handleRetranscribe}
@@ -394,10 +417,18 @@ const HistoryEntryRow: React.FC<HistoryEntryRowProps> = ({
             <RotateCcw
               width={16}
               height={16}
-              style={retrying ? { animation: "spin 1s linear infinite reverse" } : undefined}
+              style={
+                retrying
+                  ? { animation: "spin 1s linear infinite reverse" }
+                  : undefined
+              }
             />
           </IconButton>
-          <IconButton onClick={handleDeleteEntry} disabled={retrying} title={t("settings.history.delete")}>
+          <IconButton
+            onClick={handleDeleteEntry}
+            disabled={retrying}
+            title={t("settings.history.delete")}
+          >
             <Trash2 width={16} height={16} />
           </IconButton>
         </div>
@@ -411,7 +442,11 @@ const HistoryEntryRow: React.FC<HistoryEntryRowProps> = ({
               ? "text-text/90 select-text cursor-text whitespace-pre-wrap break-words"
               : "text-text/40"
         }`}
-        style={retrying ? { animation: "transcribe-pulse 3s ease-in-out infinite" } : undefined}
+        style={
+          retrying
+            ? { animation: "transcribe-pulse 3s ease-in-out infinite" }
+            : undefined
+        }
       >
         {retrying && (
           <style>{`

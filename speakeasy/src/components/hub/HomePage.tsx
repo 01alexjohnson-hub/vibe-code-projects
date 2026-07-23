@@ -61,7 +61,9 @@ export const HomePage: React.FC<HomePageProps> = ({ onViewHistory }) => {
     const unlisten = events.historyUpdatePayload.listen((event) => {
       const payload = event.payload;
       if (payload.action === "added") {
-        setEntries((prev) => [payload.entry, ...prev].slice(0, HOME_FEED_LIMIT));
+        setEntries((prev) =>
+          [payload.entry, ...prev].slice(0, HOME_FEED_LIMIT),
+        );
       } else if (payload.action === "updated") {
         setEntries((prev) =>
           prev.map((e) => (e.id === payload.entry.id ? payload.entry : e)),
@@ -98,7 +100,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onViewHistory }) => {
     try {
       await navigator.clipboard.writeText(text);
       setCopiedId(entry.id);
-      setTimeout(() => setCopiedId((id) => (id === entry.id ? null : id)), 2000);
+      setTimeout(
+        () => setCopiedId((id) => (id === entry.id ? null : id)),
+        2000,
+      );
     } catch (error) {
       console.error("Failed to copy transcript:", error);
     }
@@ -174,7 +179,9 @@ export const HomePage: React.FC<HomePageProps> = ({ onViewHistory }) => {
           ) : recent.length === 0 ? (
             <div className="flex flex-col items-center gap-2 px-4 py-10 text-center">
               <Mic size={20} className="text-mid-gray/50" aria-hidden="true" />
-              <p className="text-text/60 text-sm">{t("hub.home.recent.empty")}</p>
+              <p className="text-text/60 text-sm">
+                {t("hub.home.recent.empty")}
+              </p>
             </div>
           ) : (
             <div className="divide-y divide-mid-gray/20">

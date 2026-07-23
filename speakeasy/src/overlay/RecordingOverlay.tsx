@@ -219,7 +219,11 @@ const RecordingOverlay: React.FC = () => {
 
   // spinner (left) | label (center) | cancel (right) — same 3-zone grid as the
   // listening row, so the label is centered.
-  const workingRow = (label: string, showCancel: boolean, polishing = false) => (
+  const workingRow = (
+    label: string,
+    showCancel: boolean,
+    polishing = false,
+  ) => (
     <div className="sbase">
       <div className="sbase-l">
         <span className="sspinner" />

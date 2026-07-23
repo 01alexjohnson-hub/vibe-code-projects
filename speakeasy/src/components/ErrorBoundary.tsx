@@ -25,10 +25,10 @@ const STACK_SNIPPET_LINES = 6;
  * use the `useTranslation` hook (error boundaries themselves must be class
  * components — React has no hook equivalent for componentDidCatch).
  */
-const ErrorFallback: React.FC<{ error: Error; componentStack: string | null }> = ({
-  error,
-  componentStack,
-}) => {
+const ErrorFallback: React.FC<{
+  error: Error;
+  componentStack: string | null;
+}> = ({ error, componentStack }) => {
   const { t } = useTranslation();
   // Prefer the raw JS stack (file/line, the more familiar crash-report
   // shape); fall back to React's component-stack if the thrown value didn't
@@ -47,7 +47,9 @@ const ErrorFallback: React.FC<{ error: Error; componentStack: string | null }> =
           className="text-accent-orange shrink-0"
           aria-hidden="true"
         />
-        <h2 className="text-base font-semibold">{t("errors.boundary.title")}</h2>
+        <h2 className="text-base font-semibold">
+          {t("errors.boundary.title")}
+        </h2>
         <p className="text-sm text-text/70">{t("errors.boundary.body")}</p>
         {error.message && (
           <p className="text-xs font-mono text-text/50 break-words">

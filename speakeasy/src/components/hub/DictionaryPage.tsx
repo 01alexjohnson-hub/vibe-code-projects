@@ -74,7 +74,11 @@ export const DictionaryPage: React.FC = () => {
       <div className="bg-background border border-mid-gray/20 rounded-lg overflow-hidden">
         {customWords.length === 0 ? (
           <div className="flex flex-col items-center gap-2 px-4 py-10 text-center">
-            <BookOpen size={20} className="text-mid-gray/50" aria-hidden="true" />
+            <BookOpen
+              size={20}
+              className="text-mid-gray/50"
+              aria-hidden="true"
+            />
             <p className="text-text/60 text-sm">{t("hub.dictionary.empty")}</p>
           </div>
         ) : (

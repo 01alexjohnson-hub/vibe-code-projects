@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ChevronDown, ChevronUp, RefreshCcw, TriangleAlert } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronUp,
+  RefreshCcw,
+  TriangleAlert,
+} from "lucide-react";
 import { SettingsGroup } from "../../ui/SettingsGroup";
 import { Dropdown } from "../../ui/Dropdown";
 import { ResetButton } from "../../ui/ResetButton";
@@ -71,7 +76,6 @@ export const PolishTab: React.FC = () => {
       refreshModels();
     }
     // Only re-check when the level crosses into needing Ollama.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [polishLevel]);
 
   const needsOllama = polishLevel === "medium" || polishLevel === "high";
@@ -134,7 +138,9 @@ export const PolishTab: React.FC = () => {
               <Dropdown
                 options={ollamaModels.map((m) => ({ value: m, label: m }))}
                 selectedValue={ollamaModel || null}
-                onSelect={(value) => updateSetting("polish_ollama_model", value)}
+                onSelect={(value) =>
+                  updateSetting("polish_ollama_model", value)
+                }
                 placeholder={ollamaModel}
                 disabled={isFetchingModels}
                 className="flex-1 min-w-0"
@@ -145,7 +151,9 @@ export const PolishTab: React.FC = () => {
                 ariaLabel={t("hub.settings.polish.refreshModels")}
                 className="flex h-10 w-10 items-center justify-center shrink-0"
               >
-                <RefreshCcw className={`h-4 w-4 ${isFetchingModels ? "animate-spin" : ""}`} />
+                <RefreshCcw
+                  className={`h-4 w-4 ${isFetchingModels ? "animate-spin" : ""}`}
+                />
               </ResetButton>
             </div>
             {ollamaUnreachable && (
@@ -191,7 +199,11 @@ export const PolishTab: React.FC = () => {
           onClick={() => setPromptsExpanded((v) => !v)}
           className="flex items-center gap-1.5 px-1 text-xs font-medium text-mid-gray uppercase tracking-wide hover:text-text transition-colors cursor-pointer"
         >
-          {promptsExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+          {promptsExpanded ? (
+            <ChevronUp size={14} />
+          ) : (
+            <ChevronDown size={14} />
+          )}
           {t("hub.settings.polish.promptsToggle")}
         </button>
         {promptsExpanded && (
