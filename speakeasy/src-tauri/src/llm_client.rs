@@ -485,7 +485,8 @@ mod tests {
         use std::time::{Duration, Instant};
 
         // Accept connections but never write a response.
-        let listener = std::net::TcpListener::bind("127.0.0.1:0").expect("bind black-hole listener");
+        let listener =
+            std::net::TcpListener::bind("127.0.0.1:0").expect("bind black-hole listener");
         let addr = listener.local_addr().expect("local addr");
         std::thread::spawn(move || {
             for stream in listener.incoming() {
@@ -500,11 +501,19 @@ mod tests {
         let base = format!("http://{}", addr);
         let start = Instant::now();
         let result = tauri::async_runtime::block_on(send_ollama_chat(
-            &base, "test-model", "system", "hello", 200,
+            &base,
+            "test-model",
+            "system",
+            "hello",
+            200,
         ));
         let elapsed = start.elapsed();
 
-        assert!(result.is_err(), "expected a timeout error, got {:?}", result);
+        assert!(
+            result.is_err(),
+            "expected a timeout error, got {:?}",
+            result
+        );
         // 200ms budget → must return well under a second, not after the 30s stall.
         assert!(
             elapsed < Duration::from_secs(5),

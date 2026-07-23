@@ -27,14 +27,12 @@ use regex::Regex;
 /// comma is consumed too, so ", uh," collapses cleanly rather than leaving an
 /// orphaned comma. "like" is intentionally excluded here — it is a real word and
 /// is only treated as a filler in the comma context handled by [`LIKE_FILLER`].
-static FILLER: Lazy<Regex> = Lazy::new(|| {
-    Regex::new(r"(?i)(?:,\s*)?\b(?:um+|uh+|uhm+|erm+|hmm+)\b[,.]?").unwrap()
-});
+static FILLER: Lazy<Regex> =
+    Lazy::new(|| Regex::new(r"(?i)(?:,\s*)?\b(?:um+|uh+|uhm+|erm+|hmm+)\b[,.]?").unwrap());
 
 /// "like" only as a filler: it must be wrapped by a following comma (the ",
 /// like," verbal tic). "I like pizza" is left untouched.
-static LIKE_FILLER: Lazy<Regex> =
-    Lazy::new(|| Regex::new(r"(?i)(?:,\s*)?\blike\b,").unwrap());
+static LIKE_FILLER: Lazy<Regex> = Lazy::new(|| Regex::new(r"(?i)(?:,\s*)?\blike\b,").unwrap());
 
 /// The multi-word verbal fillers, handled separately so the single-token
 /// [`FILLER`] pattern stays simple.

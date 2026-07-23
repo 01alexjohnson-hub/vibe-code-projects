@@ -220,10 +220,7 @@ pub fn is_localhost_url(url: &str) -> bool {
         None => url,
     };
     // Authority is everything up to the first path/query/fragment delimiter.
-    let authority = rest
-        .split(['/', '?', '#'])
-        .next()
-        .unwrap_or("");
+    let authority = rest.split(['/', '?', '#']).next().unwrap_or("");
     // Drop any `user:pass@` userinfo prefix.
     let host_port = authority.rsplit('@').next().unwrap_or(authority);
     // Strip the port, handling a bracketed IPv6 literal like `[::1]:11434`.

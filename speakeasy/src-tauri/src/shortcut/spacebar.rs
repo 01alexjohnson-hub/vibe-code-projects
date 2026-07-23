@@ -225,10 +225,7 @@ impl Inner {
     /// is forced true so a hold always maps to press-start / release-stop,
     /// independent of the global toggle-mode setting.
     fn drive_transcribe(&self, is_pressed: bool) {
-        if let Some(coordinator) = self
-            .app
-            .try_state::<crate::TranscriptionCoordinator>()
-        {
+        if let Some(coordinator) = self.app.try_state::<crate::TranscriptionCoordinator>() {
             coordinator.send_input("transcribe", "space", is_pressed, true);
         } else {
             warn!("TranscriptionCoordinator not initialized; spacebar event dropped");
